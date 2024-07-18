@@ -39,10 +39,14 @@ class GroupRepositoryPrisma implements GroupRepository {
         music: true,
         album: true,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
-
+  
     return JSON.parse(JSON.stringify(result, replacer));
   }
+  
 
   async getGroupById(id: string): Promise<any> {
     const result = await prisma.group.findUnique({

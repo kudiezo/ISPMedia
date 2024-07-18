@@ -35,7 +35,6 @@ export const initialData = async () => {
         name: ispmediaGroup.name,
         description: ispmediaGroup.description,
         visibility: ispmediaGroup.visibility,
-        ownerId: user.id,
       },
     });
 

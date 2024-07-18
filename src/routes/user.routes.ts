@@ -84,7 +84,7 @@ userRoutes.post("/login", async (req: Request, res: Response) => {
   res.cookie("access_token", token, {
     httpOnly: true,
     secure: true,
-    expires: new Date(Date.now() + 60 * 60 * 1000),
+    expires: new Date(Date.now() + 60 * 60 * 1000000000000),
     sameSite: "none",
   });
   return res.send({ accessToken: token, user: payload });

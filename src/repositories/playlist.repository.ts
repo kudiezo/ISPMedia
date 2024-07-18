@@ -53,6 +53,9 @@ class PlaylistRepositoryPrisma implements IPlaylistRepository {
         music: true,
         user: true,
       },
+      orderBy: {
+        name: 'asc', // Ordena pelo campo createdAt em ordem decrescente
+      },
     });
     return JSON.parse(JSON.stringify(result, replacer));
   }

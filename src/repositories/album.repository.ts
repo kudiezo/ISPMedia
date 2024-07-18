@@ -77,6 +77,9 @@ class AlbumRepositoryPrisma implements IAlbumRepository {
         artist: true,
         user: true,
       },
+      orderBy: {
+        title: "asc"
+      }
     });
     return JSON.parse(JSON.stringify(result, replacer));
   }
