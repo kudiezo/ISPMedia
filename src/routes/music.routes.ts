@@ -51,7 +51,7 @@ musicRoutes.post("/uploads", authenticate, (req: Request, res: Response) => {
   });
 });
 
-musicRoutes.get("/", async (req: Request, res: Response) => {
+musicRoutes.get("/", authenticate, async (req: Request, res: Response) => {
   try {
     const musics = await musicUsecase.getAllMusic();
     return res.status(200).json(musics);
@@ -60,7 +60,7 @@ musicRoutes.get("/", async (req: Request, res: Response) => {
   }
 });
 
-musicRoutes.get("/:id", async (req: Request, res: Response) => {
+musicRoutes.get("/:id", authenticate, async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
@@ -74,9 +74,46 @@ musicRoutes.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-musicRoutes.get("/play/:musicId", async (req: Request, res: Response) => {});
+musicRoutes.get("/play/:musicId", authenticate, async (req: Request, res: Response) => {
+  const range = req.headers.range;
+    const { musicId } = req.params;
+    try {
+      const music = await musicUsecase.getMusicById(musicId);
+      if (!music) {
+        return res.status(404).send({
+          message: "Video not found!",
+        });
+      }
+      const musicPath = resolve(music.path);
+      const musicSize = fs.statSync(musicPath).size;
 
-musicRoutes.delete("/:musicId", async (req: Request, res: Response) => {
+      if (!range) {
+        return res.status(400).send("Range header is required");
+      }
+
+      // Parse Range
+      const CHUNK_SIZE = 10 ** 6; // 1MB
+      const start = Number(range.replace(/\D/g, ""));
+      const end = Math.min(start + CHUNK_SIZE, musicSize - 1);
+
+      const contentLength = end - start + 1;
+      const headers = {
+        "Content-Range": `bytes ${start}-${end}/${musicSize}`,
+        "Accept-Ranges": "bytes",
+        "Content-Length": contentLength,
+        "Content-Type": `${music.mimetype}`,
+      };
+      res.writeHead(206, headers);
+
+      // create read stream for the part of the music
+      const musicStream = fs.createReadStream(musicPath, { start, end });
+      musicStream.pipe(res);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+});
+
+musicRoutes.delete("/:musicId", authenticate, async (req: Request, res: Response) => {
   const { musicId } = req.params;
 
   const existMusic = await musicUsecase.getMusicById(musicId);
@@ -93,7 +130,7 @@ musicRoutes.delete("/:musicId", async (req: Request, res: Response) => {
   }
 });
 
-musicRoutes.put("/:musicId", async (req: Request, res: Response) => {
+musicRoutes.put("/:musicId", authenticate, async (req: Request, res: Response) => {
   if (!req.params) {
     return res.status(400).json({ message: "Missing music id" });
   }
