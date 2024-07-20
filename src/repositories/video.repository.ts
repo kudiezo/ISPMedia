@@ -28,7 +28,11 @@ class VideoRepositoryPrisma implements VideoRepository {
     return video.id;
   }
   async getAllVideo(): Promise<any> {
-    const result = await prisma.video.findMany();
+    const result = await prisma.video.findMany({
+      orderBy: {
+        id: 'desc'
+      },
+    });
     // Mapeando os vídeos para converter o campo 'size' para string
     const videos = result.map(video => ({
       ...video,

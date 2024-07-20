@@ -64,6 +64,12 @@ userRoutes.get("/", authenticate, async (req: Request, res: Response) => {
   }
 });
 
+userRoutes.put("/:userId", async (req: Request, res: Response) => {
+  if (!req.params) {
+    return res.status(400).json({ message: "Missing user id" });
+  }
+});
+
 userRoutes.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 

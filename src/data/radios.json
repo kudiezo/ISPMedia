@@ -21,20 +21,6 @@
     "url": "https://radios.justweb.pt/8050/stream/?1685627470876"
   },
   {
-    "id": 4,
-    "name": "Rádio Filhos da Escola",
-    "country": "Portugal",
-    "freq": "1.1",
-    "url": "http://176.9.43.216:8021/stream"
-  },
-  {
-    "id": 5,
-    "name": "Rádio Filhos da Escola",
-    "country": "Portugal",
-    "freq": "1.1",
-    "url": "http://176.9.43.216:8021/stream"
-  },
-  {
     "id": 6,
     "name": "Radio UNIA",
     "country": "Angola",
@@ -68,27 +54,6 @@
     "country": "Angola",
     "freq": "105.6",
     "url": "https://radios.vpn.sapo.pt/AO/radio14.mp3"
-  },
-  {
-    "id": 11,
-    "name": "RAI Radio 1",
-    "country": "Itália",
-    "freq": "105.6",
-    "url": "http://icestreaming.rai.it/1.mp3"
-  },
-  {
-    "id": 12,
-    "name": "Deutschlandfunk",
-    "country": "Alemanha",
-    "freq": "105.6",
-    "url": "http://st01.dlf.de/dlf/01/128/mp3/stream.mp3"
-  },
-  {
-    "id": 13,
-    "name": "RTL",
-    "country": "França",
-    "freq": "105.6",
-    "url": "http://streaming.radio.rtl.fr/rtl-1-44-128"
   },
   {
     "id": 14,
@@ -145,41 +110,6 @@
     "country": "Espanha",
     "freq": "desconhecido",
     "url": "https://stream.rcs.revma.com/3p9gkcy5z72vv"
-  },
-  {
-    "id": 22,
-    "name": "FluxFM",
-    "country": "Alemanha",
-    "freq": "desconhecido",
-    "url": "http://channels.fluxfm.de/FluxFM/stream.mp3"
-  },
-  {
-    "id": 23,
-    "name": "JAM FM",
-    "country": "Alemanha",
-    "freq": "desconhecido",
-    "url": "http://stream.jam.fm/jamfm-nmr/mp3-192/"
-  },
-  {
-    "id": 24,
-    "name": "JAM FM",
-    "country": "Alemanha",
-    "freq": "desconhecido",
-    "url": "http://stream.jam.fm/jamfm-nmr/mp3-192/"
-  },
-  {
-    "id": 25,
-    "name": "JAM FM Berlin",
-    "country": "Alemanha",
-    "freq": "desconhecido",
-    "url": "http://stream.jam.fm/jamfm-live/mp3-192/"
-  },
-  {
-    "id": 26,
-    "name": "JAM FM Black Label",
-    "country": "USA",
-    "freq": "desconhecido",
-    "url": "http://stream.jam.fm/jamfm-bl/mp3-192/"
   },
   {
     "id": 27,

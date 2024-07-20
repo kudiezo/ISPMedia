@@ -58,7 +58,6 @@ videoRoutes.post("/uploads", authenticate, (req: Request, res: Response) => {
 
 videoRoutes.get(
   "/play/:id",
-  authenticate,
   async (req: Request, res: Response) => {
     const range = req.headers.range;
     const { id } = req.params;
