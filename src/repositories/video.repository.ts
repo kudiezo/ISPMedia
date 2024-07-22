@@ -50,6 +50,22 @@ class VideoRepositoryPrisma implements VideoRepository {
     const video = {...result, size: result?.size.toString()}
     return video;
   }
+  async getVideosByTitle(title: string): Promise<any[]> {
+    const results = await prisma.video.findMany({
+      where: title ? {
+        title: {
+          contains: title,
+        },
+      } : {},
+    });
+  
+    const videos = results.map(result => ({
+      ...result,
+      size: result.size.toString(),
+    }));
+  
+    return videos;
+  }
 
   async delete(id: string): Promise<any> {
     return await prisma.video.delete({

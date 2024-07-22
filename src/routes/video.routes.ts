@@ -112,6 +112,20 @@ videoRoutes.get("/:id", authenticate, async (req: Request, res: Response) => {
     res.status(500).send(error);
   }
 });
+videoRoutes.get("/search/:title", authenticate, async (req: Request, res: Response) => {
+  const { title } = req.params;
+  const video = await videoUseCase.getVideoByTitle(title);
+  if (!video) {
+    return res.status(404).send({
+      message: "Video not found!",
+    });
+  }
+  try {
+    return res.status(200).send(video);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 videoRoutes.get("/", authenticate, async (req: Request, res: Response) => {
   try {

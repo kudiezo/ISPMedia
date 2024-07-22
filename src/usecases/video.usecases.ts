@@ -20,6 +20,10 @@ class VideoUseCase {
     const result = await this.videoRepository.getVideoById(id);
     return result;
   }
+  async getVideoByTitle(title: string): Promise<any> {
+    const result = await this.videoRepository.getVideosByTitle(title);
+    return result;
+  }
 
   async delete(id: string): Promise<any> {
     await this.videoRepository.delete(id);

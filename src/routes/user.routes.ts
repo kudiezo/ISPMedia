@@ -64,12 +64,6 @@ userRoutes.get("/", authenticate, async (req: Request, res: Response) => {
   }
 });
 
-userRoutes.put("/:userId", async (req: Request, res: Response) => {
-  if (!req.params) {
-    return res.status(400).json({ message: "Missing user id" });
-  }
-});
-
 userRoutes.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -119,19 +113,65 @@ userRoutes.post(
   }
 );
 
+
+// Armazena informações de clientes que estão esperando por atualizações
+let clients: { [key: string]: Response[] } = {};
+
 userRoutes.put("/updaterole", authenticate, async (req: Request, res: Response) => {
   const { id, role } = req.body;
 
   const user = await userUseCase.getById(id);
-      if (user === null) {
-        return res.status(404).send({ message: "User not found!" });
-      }
+  if (user === null) {
+    return res.status(404).send({ message: "User not found!" });
+  }
 
   try {
     const data = await userUseCase.updateUserRole(id, role);
+
+    // Notificar o usuário específico sobre a mudança de role
+    if (clients[id]) {
+      clients[id].forEach(clientRes => {
+        clientRes.json({ type: 'roleChange', newRole: role });
+      });
+      clients[id] = [];
+    }
+
     return res.status(201).send({ user: data });
   } catch (error) {
     res.status(500).send(error);
   }
 });
+
+userRoutes.get('/subscribe/:id', authenticate, (req: Request, res: Response) => {
+  const userId = req.params.id;
+
+  if (!clients[userId]) {
+    clients[userId] = [];
+  }
+
+  clients[userId].push(res);
+
+  // Timeout para evitar que a conexão fique pendente por muito tempo
+  req.on('close', () => {
+    clients[userId] = clients[userId].filter(clientRes => clientRes !== res);
+  });
+});
+
+
+// userRoutes.put("/updaterole", authenticate, async (req: Request, res: Response) => {
+//   const { id, role } = req.body;
+
+//   const user = await userUseCase.getById(id);
+//   if (user === null) {
+//     return res.status(404).send({ message: "User not found!" });
+//   }
+
+//   try {
+//     const data = await userUseCase.updateUserRole(id, role);
+//     return res.status(201).send({ user: data });
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
+
 export default userRoutes;
