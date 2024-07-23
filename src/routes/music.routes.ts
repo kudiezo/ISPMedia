@@ -74,7 +74,7 @@ musicRoutes.get("/:id", authenticate, async (req: Request, res: Response) => {
   }
 });
 
-musicRoutes.get("/play/:musicId", authenticate, async (req: Request, res: Response) => {
+musicRoutes.get("/play/:musicId", async (req: Request, res: Response) => {
   const range = req.headers.range;
     const { musicId } = req.params;
     try {
